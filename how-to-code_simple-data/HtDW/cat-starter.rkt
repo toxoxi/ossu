@@ -63,9 +63,10 @@
 ;; start the world with (main 0)
 ;; 
 (define (main c)
-  (big-bang c               ; Cat
-    (on-tick   advance-cat) ; Cat -> Cat
-    (to-draw   render)))    ; Cat -> Image
+  (big-bang c                ; Cat
+    (on-tick   advance-cat)  ; Cat -> Cat
+    (to-draw   render)       ; Cat -> Image
+    (on-key    handle-key))) ; Cat KeyEvent -> Cat
 
 ;; Cat -> Cat
 ;; produce the next cat, by advancing it SPEED px(s) to right
@@ -85,3 +86,16 @@
 
 (define (render c)
   (place-image CAT-IMG c CTR-Y MTS))
+
+;; Cat KeyEvent → Cat
+;; reset cat to left edge when space key is pressed
+(check-expect (handle-key 10 " ")  0)
+(check-expect (handle-key 10 "a") 10)
+(check-expect (handle-key  0 " ")  0)
+(check-expect (handle-key  0 "a")  0)
+
+;(define (handle-key c ke) 0) ;stub
+
+(define (handle-key c ke)
+  (cond [(key=? ke " ") 0]
+        [else c]))
