@@ -37,6 +37,8 @@
 
 (define CTR-Y (/ HEIGHT 2))
 
+(define SPEED 3)
+
 (define MTS (empty-scene WIDTH HEIGHT "midnight blue"))
 
 (define CAT-IMG .)
@@ -66,13 +68,13 @@
     (to-draw   render)))    ; Cat -> Image
 
 ;; Cat -> Cat
-;; produce the next cat, by advancing it 1 px to right
-(check-expect (advance-cat 3) 4)
+;; produce the next cat, by advancing it SPEED px(s) to right
+(check-expect (advance-cat 3) (+ 3 SPEED))
 
 ;(define (advance-cat c) 0) ;stub
 
 ;<use template from Cat>
-(define (advance-cat c) (add1 c))
+(define (advance-cat c) (+ c SPEED))
 
 
 ;; Cat -> Image
