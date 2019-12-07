@@ -63,10 +63,11 @@
 ;; start the world with (main 0)
 ;; 
 (define (main c)
-  (big-bang c                ; Cat
-    (on-tick   advance-cat)  ; Cat -> Cat
-    (to-draw   render)       ; Cat -> Image
-    (on-key    handle-key))) ; Cat KeyEvent -> Cat
+  (big-bang c                  ; Cat
+    (on-tick   advance-cat)    ; Cat -> Cat
+    (to-draw   render)         ; Cat -> Image
+    (on-key    handle-key)     ; Cat KeyEvent -> Cat
+    (on-mouse  handle-mouse))) ; Cat MouseEvent -> Cat
 
 ;; Cat -> Cat
 ;; produce the next cat, by advancing it SPEED px(s) to right
@@ -98,4 +99,17 @@
 
 (define (handle-key c ke)
   (cond [(key=? ke " ") 0]
+        [else c]))
+
+;; Cat MouseEvent → Cat
+;; move cat to position which clicked the mouse
+
+(check-expect (handle-mouse 10 30 40 "button-down") 30)
+(check-expect (handle-mouse 10 10 40 "button-down") 10)
+(check-expect (handle-mouse 10 30 40 "enter")       10)
+
+;(define (handle-mouse c me) 0)
+
+(define (handle-mouse c x y me)
+  (cond [(mouse=? me "button-down") x]
         [else c]))
