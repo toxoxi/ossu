@@ -52,9 +52,9 @@
 ;; no tests for main function
 (define (main c)
   (big-bang c
-            (on-tick next-cow)       ; Cow -> Cow
-            (to-draw render-cow)     ; Cow -> Image
-            (on-key  handle-key)))   ; Cow KeyEvent -> Cow
+    (on-tick next-cow)       ; Cow -> Cow
+    (to-draw render-cow)     ; Cow -> Image
+    (on-key  handle-key)))   ; Cow KeyEvent -> Cow
 
 
 
@@ -93,11 +93,18 @@
 
 (define (choose-image c)
   (if (> (cow-dx c) 0)
-    RCOW
-    LCOW))
+      RCOW
+      LCOW))
 
 ;; Cow KeyEvent-> Cow
 ;; reverse direction of cow travel when space bar is pressed
-;; !!!
-(define (handle-key c ke) c) ;stub
+(check-expect (handle-key (make-cow 50 3) " ") (make-cow 50 -3))
+(check-expect (handle-key (make-cow 20 -3) " ") (make-cow 20 3))
+(check-expect (handle-key (make-cow 50 3) "a") (make-cow 50 3))
+(check-expect (handle-key (make-cow 20 -3) "a") (make-cow 20 -3))
 
+;(define (handle-key c ke) c) ;stub
+
+(define (handle-key c ke)
+  (cond [(key=? ke " ") (make-cow (cow-x c) (- (cow-dx c)))]
+        [else c]))
